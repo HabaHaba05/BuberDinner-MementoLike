@@ -1,0 +1,180 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="BuberDinner.Domain.UserAggregate.User" Collapsed="true">
+    <Position X="4" Y="0.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAACAAAAAAAAAAAAAAAAAAAMACAAAAgQAAAAg=</HashCode>
+      <FileName>UserAggregate\User.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BuberDinner.Domain.MenuReviewAggregate.MenuReview" Collapsed="true">
+    <Position X="9" Y="0.75" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAEgAAAAAAAAAEAAAAAAAAABEEAgAAAgQAAAAA=</HashCode>
+      <FileName>MenuReviewAggregate\MenuReview.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BuberDinner.Domain.MenuAggregate.Menu" Collapsed="true">
+    <Position X="12" Y="4.25" Width="3" />
+    <Members>
+      <Property Name="DinnerIds" Hidden="true" />
+      <Property Name="MenuReviewIds" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAEEEAAEAggAAAAAAEAAAQCAAAAAMAAgGAAgQAgAAA=</HashCode>
+      <FileName>MenuAggregate\Menu.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Field Name="_sections" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="BuberDinner.Domain.MenuAggregate.Entities.MenuSection" Collapsed="true">
+    <Position X="12.75" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAAAAiCAAAAAAAAAQAABAAAEAAAAAAgAAAAAA=</HashCode>
+      <FileName>MenuAggregate\Entities\MenuSection.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Field Name="_items" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="BuberDinner.Domain.MenuAggregate.Entities.MenuItem" Collapsed="true">
+    <Position X="12.75" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAAAAiAAAAAAAAAAQAAAAAAEAAAAAAgAAAAAQ=</HashCode>
+      <FileName>MenuAggregate\Entities\MenuItem.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BuberDinner.Domain.HostAggregate.Host" Collapsed="true">
+    <Position X="6.5" Y="0.75" Width="2" />
+    <Members>
+      <Property Name="DinnerIds" Hidden="true" />
+      <Property Name="MenuIds" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAEAEAgAAAAEIAAAAAAgBAAAAAMAAgCAAgQAgAAg=</HashCode>
+      <FileName>HostAggregate\Host.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BuberDinner.Domain.GuestAggregate.Guest" Collapsed="true">
+    <Position X="4.75" Y="4.25" Width="2" />
+    <Members>
+      <Property Name="BillIds" Hidden="true" />
+      <Property Name="MenuReviewIds" Hidden="true" />
+      <Property Name="OngoingReservationIds" Hidden="true" />
+      <Property Name="PastReservationIds" Hidden="true" />
+      <Property Name="PendingReservationIds" Hidden="true" />
+      <Property Name="UpcomingReservationIds" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AABAAEAAAAgAAIAAAgEACAiKAkIIAMGAAEBBgQAAAAg=</HashCode>
+      <FileName>GuestAggregate\Guest.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Field Name="_ratings" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="BuberDinner.Domain.GuestAggregate.Entities.GuestRating" Collapsed="true">
+    <Position X="5.25" Y="5.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAAAAAAAAAAAEAAAAAAAAAAMEAgAAAgAIAAAA=</HashCode>
+      <FileName>GuestAggregate\Entities\GuestRating.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BuberDinner.Domain.DinnerAggregate.Dinner" Collapsed="true">
+    <Position X="9" Y="4.25" Width="2.25" />
+    <Members>
+      <Property Name="ArrivedReservations" Hidden="true" />
+      <Property Name="CompletedReservations" Hidden="true" />
+      <Property Name="PendingReservations" Hidden="true" />
+      <Property Name="Reservations" Hidden="true" />
+    </Members>
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAAIAMAEASAgEACBEAMAAkQQICAAhMQAAIAAowAAAAg=</HashCode>
+      <FileName>DinnerAggregate\Dinner.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Field Name="_reservations" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="BuberDinner.Domain.DinnerAggregate.Entities.Reservation" Collapsed="true">
+    <Position X="9" Y="5.5" Width="2.25" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AIAAAEAEwAAAAIIQAAIAAAAQAIAQAMAgAEAAgAAAAIA=</HashCode>
+      <FileName>DinnerAggregate\Entities\Reservation.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Status" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="BuberDinner.Domain.BillAggregate.Bill" Collapsed="true">
+    <Position X="12" Y="0.75" Width="2.75" />
+    <AssociationLine Name="Status" Type="BuberDinner.Domain.BillAggregate.Enums.BillStatus" ManuallyRouted="true">
+      <Path>
+        <Point X="13" Y="1.441" />
+        <Point X="13" Y="2.25" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAEAEgAAAAgAAAAEAAACAAAAAAMAAgAAAgQAEAAA=</HashCode>
+      <FileName>BillAggregate\Bill.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Status" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="BuberDinner.Domain.BecomeHostRequestAggregate.BecomeHostRequest" Collapsed="true">
+    <Position X="1" Y="3.25" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AQgQAEAEAAIAAAAAAAAAAAgAAAAAAMAAAAAAgQAAAIA=</HashCode>
+      <FileName>BecomeHostRequestAggregate\BecomeHostRequest.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Status" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="BuberDinner.Domain.AdminAggregate.Admin" Collapsed="true">
+    <Position X="1.5" Y="0.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAACAAAAAAAAAAAAQAAAAAAEACAAAAgQAAAAA=</HashCode>
+      <FileName>AdminAggregate\Admin.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BuberDinner.Domain.DinnerAggregate.Enums.ReservationStatus" Collapsed="true">
+    <Position X="9" Y="6.75" Width="2" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAAEAAAAACwAAIICAAAAAAAIAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>DinnerAggregate\Enums\ReservationStatus.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BuberDinner.Domain.BillAggregate.Enums.BillStatus" Collapsed="true">
+    <Position X="12.25" Y="2.25" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAgAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>BillAggregate\Enums\BillStatus.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BuberDinner.Domain.BecomeHostRequestAggregate.Enums.RequestResponseType" Collapsed="true">
+    <Position X="1" Y="4.5" Width="1.75" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAAAAAACAAQAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAA=</HashCode>
+      <FileName>BecomeHostRequestAggregate\Enums\RequestResponseType.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
