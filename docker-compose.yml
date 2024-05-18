@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  api:
+    image: buber-dinner-api
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    depends_on:
+      - db
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__BuberDinner=Server=db;Database=BuberDinner;User=sa;Password=Your_password123;TrustServerCertificate=true;MultipleActiveResultSets=True
+
+
+  db:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    ports:
+      - "1433:1433"
+    environment:
+      SA_PASSWORD: "Your_password123"
+      ACCEPT_EULA: "Y"
+    volumes:
+      - mssql-data:/var/opt/mssql
+      - ./sqlscripts:/sqlscripts
+      - ./run-db-initialization.sh:/usr/src/app/run-db-initialization.sh  
+    command: /bin/bash -c "/usr/src/app/run-db-initialization.sh & /opt/mssql/bin/sqlservr"
+
+volumes:
+  mssql-data:

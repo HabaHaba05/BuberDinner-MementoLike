@@ -1,3 +1,16 @@
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_CATALOG = 'BuberDinner')
+BEGIN
+CREATE DATABASE BuberDinner
+END
+GO
+
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES 
+               WHERE TABLE_CATALOG = 'BuberDinner' 
+               AND TABLE_NAME = 'Audit')
+BEGIN
+
+USE [BuberDinner];
+
 /****** [Audit] ******/
 CREATE TABLE [dbo].[Audit](
 	[Id] [int] IDENTITY(1,1) NOT NULL PRIMARY KEY,
@@ -8,7 +21,6 @@ CREATE TABLE [dbo].[Audit](
 	[Changes] [nvarchar](max) NULL,
 	[ActionTime] [datetime2](7) NOT NULL
 	)
-GO
 
 /****** [Admins] ******/
 CREATE TABLE [dbo].[Admins](
@@ -17,6 +29,9 @@ CREATE TABLE [dbo].[Admins](
 	[Email] [nvarchar](max) NOT NULL,
 	[Password] [nvarchar](100) NOT NULL,
 );
+
+INSERT INTO [dbo].[Admins](Id, Name, Email, Password)
+VALUES (NEWID(), 'Admin1', 'foo', 'bar')
 
 
 /****** [Users] ******/
@@ -246,3 +261,5 @@ CREATE TABLE [dbo].[MenuReviewIds](
 	CONSTRAINT [PK_MenuReviewIds] PRIMARY KEY ([MenuId], [ReviewId]),
 	CONSTRAINT [FK_MenuReviewIds_Menus_MenuId] FOREIGN KEY ([MenuId]) REFERENCES [dbo].[Menus] ([Id]) ON DELETE CASCADE,
 )
+
+END
