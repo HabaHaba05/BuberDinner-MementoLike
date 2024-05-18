@@ -38,7 +38,7 @@ public class UpdateBecomeHostRequestStatusCommandHandler : IRequestHandler<Updat
 
         if (updateReponse.HasValue)
         {
-            return becomeHostRequestId.Errors;
+            return updateReponse.Value;
         }
 
         await _unitOfWork.BecomeHostRequestRepository.UpdateAsync(becomeHostRequest);

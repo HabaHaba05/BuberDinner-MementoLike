@@ -4,6 +4,7 @@ using System.Runtime.CompilerServices;
 
 using BuberDinner.Application.Common.Interfaces.Persistence;
 using BuberDinner.Infrastructure.Persistence.MementoLikeHelpers;
+using BuberDinner.Infrastructure.Persistence.MementoLikeHelpers.Helpers;
 using BuberDinner.Infrastructure.Persistence.Repositories;
 using BuberDinner.Infrastructure.Persistence.Repositories.Decorators;
 using BuberDinner.SharedKernel;
@@ -223,7 +224,7 @@ public class UnitOfWork : IUnitOfWork
             return;
         }
 
-        var query = "INSERT INTO Audit (ActionType, TableName, PreviousState, NewState, ActionTime)";
+        var query = "INSERT INTO Audit (ActionType, TableName, PreviousState, NewState, Changes, ActionTime)";
         var parameters = new DynamicParameters();
         var count = 0;
         var actionTime = DateTime.UtcNow;
@@ -252,20 +253,24 @@ public class UnitOfWork : IUnitOfWork
                     var actionTypeParameterKey = $"{count}_ActionType";
                     var prevStateParameterKey = $"{count}_PreviousState";
                     var newStateParameterKey = $"{count}_NewState";
+                    var changesParameterKey = $"{count}_Changes";
 
-                    query += $"(@{actionTypeParameterKey},@{tableNameParameterKey},@{prevStateParameterKey},@{newStateParameterKey},@ActionTime)";
+                    query += $"(@{actionTypeParameterKey},@{tableNameParameterKey},@{prevStateParameterKey},@{newStateParameterKey},@{changesParameterKey},@ActionTime)";
                     parameters.Add(actionTypeParameterKey, change.ActionType.ToString());
                     parameters.Add(prevStateParameterKey, JsonConvert.SerializeObject(change.PreviousState?.ToObject<Dictionary<string, object?>>()));
                     parameters.Add(newStateParameterKey, JsonConvert.SerializeObject(change.CurrentState?.ToObject<Dictionary<string, object?>>()));
+                    parameters.Add(
+                        changesParameterKey,
+                        change.ActionType == ActionType.UPDATE
+                        ? JsonConvert.SerializeObject(change.Changes?.ToObject<Dictionary<string, object?>>())
+                        : null);
                     count++;
                 }
             }
         }
 
         query += ";";
-
-        Console.WriteLine(query);
-        Console.WriteLine(parameters);
+        QueryAndParametersLogger.WriteToConsoleQueryAndParameters(query, parameters);
 
         await _connection.ExecuteAsync(query, parameters, transaction: _transaction);
     }
@@ -286,6 +291,7 @@ public class UnitOfWork : IUnitOfWork
 
         foreach (var domainEvent in entitiesWithDomainEvents)
         {
+            Console.WriteLine($"Publishing Domain Event: {domainEvent.GetType().Name}");
             hadDomainEvent = true;
             await _mediator.Publish(domainEvent);
         }

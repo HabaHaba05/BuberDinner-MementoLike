@@ -43,7 +43,7 @@ public class BecomeHostRequestRepositoryDecorator : IBecomeHostRequestRepository
     {
         var result = _map.FindByProperties([new KeyValuePair<string, object?>("UserId", userId.Value)]);
 
-        if (result is not null || result.Any())
+        if (result is not null && result.Any())
         {
             return result.Select(x => (BecomeHostRequest)x).ToList();
         }

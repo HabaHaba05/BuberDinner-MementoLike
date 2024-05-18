@@ -40,7 +40,7 @@ public class DinnersController : ApiController
         var createDinnerResult = await _mediator.Send(command);
 
         return createDinnerResult.Match(
-            dinner => Ok(_mapper.Map<DinnerResponse>(dinner)),
+            dinners => Ok(_mapper.Map<DinnerResponse>(dinners)),
             errors => Problem(errors));
     }
 
@@ -52,7 +52,7 @@ public class DinnersController : ApiController
         var dinner = await _mediator.Send(new StartDinnerCommand(hostId, dinnerId));
 
         return dinner.Match(
-            dinners => Ok(_mapper.Map<DinnerResponse>(dinner)),
+            dinners => Ok(_mapper.Map<DinnerResponse>(dinners)),
             errors => Problem(errors));
     }
 
@@ -64,7 +64,7 @@ public class DinnersController : ApiController
         var dinner = await _mediator.Send(new FinishDinnerCommand(hostId, dinnerId));
 
         return dinner.Match(
-            dinners => Ok(_mapper.Map<DinnerResponse>(dinner)),
+            dinners => Ok(_mapper.Map<DinnerResponse>(dinners)),
             errors => Problem(errors));
     }
 
@@ -76,7 +76,7 @@ public class DinnersController : ApiController
         var dinner = await _mediator.Send(new GuestArrivedCommand(hostId, request.GuestId, request.DinnerId));
 
         return dinner.Match(
-            dinners => Ok(_mapper.Map<DinnerResponse>(dinner)),
+            dinners => Ok(_mapper.Map<DinnerResponse>(dinners)),
             errors => Problem(errors));
     }
 

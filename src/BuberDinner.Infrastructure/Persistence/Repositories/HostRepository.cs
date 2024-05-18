@@ -6,6 +6,7 @@ using BuberDinner.Domain.HostAggregate.ValueObjects;
 using BuberDinner.Domain.UserAggregate.ValueObjects;
 using BuberDinner.Infrastructure.Persistence.MementoLikeHelpers;
 using BuberDinner.Infrastructure.Persistence.MementoLikeHelpers.Builders;
+using BuberDinner.Infrastructure.Persistence.MementoLikeHelpers.Helpers;
 
 using Dapper;
 
@@ -37,8 +38,11 @@ public class HostRepository : RepositoryBase, IHostRepository
 	        SELECT HostMenuId FROM HostMenuIds WHERE HostId = @HostId;
             SELECT HostDinnerId FROM HostDinnerIds WHERE HostId = @HostId;
         ";
+        var parameters = new DynamicParameters();
+        parameters.Add("HostId", hostId.Value);
+        QueryAndParametersLogger.WriteToConsoleQueryAndParameters(query, parameters);
 
-        var queryResult = await Connection.QueryMultipleAsync(query, new { HostId = hostId.Value }, transaction: Transaction);
+        var queryResult = await Connection.QueryMultipleAsync(query, parameters, transaction: Transaction);
         var host = ((IDictionary<string, object?>?)queryResult.ReadFirst())?.ToDictionary(x => x.Key, x => x.Value);
         var menus = queryResult.Read<Guid>();
         var dinners = queryResult.Read<Guid>();

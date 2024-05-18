@@ -6,6 +6,7 @@ using BuberDinner.Domain.MenuAggregate;
 using BuberDinner.Domain.MenuAggregate.ValueObjects;
 using BuberDinner.Infrastructure.Persistence.MementoLikeHelpers;
 using BuberDinner.Infrastructure.Persistence.MementoLikeHelpers.Builders;
+using BuberDinner.Infrastructure.Persistence.MementoLikeHelpers.Helpers;
 
 using Dapper;
 
@@ -49,8 +50,11 @@ public class MenuRepository : RepositoryBase, IMenuRepository
 	        SELECT DinnerId FROM MenuDinnerIds WHERE MenuId = @MenuId;
             SELECT ReviewId FROM MenuReviewIds WHERE MenuId = @MenuId;
         ";
+        var parameters = new DynamicParameters();
+        parameters.Add("MenuId", menuId.Value);
+        QueryAndParametersLogger.WriteToConsoleQueryAndParameters(query, parameters);
 
-        var queryResult = await Connection.QueryMultipleAsync(query, new { MenuId = menuId.Value }, transaction: Transaction);
+        var queryResult = await Connection.QueryMultipleAsync(query, parameters, transaction: Transaction);
         var menu = ((IDictionary<string, object?>)queryResult.ReadFirst()).ToDictionary(x => x.Key, x => x.Value);
         var menuSections = queryResult.Read().ToList().Select(x => ((IDictionary<string, object?>)x).ToDictionary()).ToList();
         var menuItems = queryResult.Read().ToList().Select(x => ((IDictionary<string, object?>)x).ToDictionary()).ToList();
@@ -87,8 +91,11 @@ public class MenuRepository : RepositoryBase, IMenuRepository
             SELECT * FROM MenuReviewIds WHERE
                 MenuId IN (SELECT Id FROM Menus WHERE HostId = @HostId);
         ";
+        var parameters = new DynamicParameters(new { HostId = hostId.Value });
+        parameters.Add("HostId", hostId.Value);
+        QueryAndParametersLogger.WriteToConsoleQueryAndParameters(query, parameters);
 
-        var queryResult = await Connection.QueryMultipleAsync(query, new { HostId = hostId.Value }, transaction: Transaction);
+        var queryResult = await Connection.QueryMultipleAsync(query, parameters, transaction: Transaction);
         var menus = queryResult.Read().ToList().Select(x => ((IDictionary<string, object?>)x).ToDictionary()).ToList();
         var menuSections = queryResult.Read().ToList().Select(x => ((IDictionary<string, object?>)x).ToDictionary()).ToList();
         var menuItems = queryResult.Read().ToList().Select(x => ((IDictionary<string, object?>)x).ToDictionary()).ToList();

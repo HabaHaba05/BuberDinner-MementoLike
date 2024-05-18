@@ -1,4 +1,5 @@
 ﻿using BuberDinner.Infrastructure.Persistence.MementoLikeHelpers.Extensions;
+using BuberDinner.Infrastructure.Persistence.MementoLikeHelpers.Helpers;
 
 using Dapper;
 
@@ -45,10 +46,7 @@ public static class SqlQueryBuilder
                     state.Where(x => x.Key != "Keys").ToList().ForEach(s => parameters.Add(s.Key, s.Value));
                 }
 
-                var parametersStr = string.Join(", ", from pn in parameters.ParameterNames select string.Format("@{0}={1}", pn, (parameters as SqlMapper.IParameterLookup)[pn]));
-                Console.WriteLine(Environment.NewLine + query);
-                Console.WriteLine("Parameters:" + parametersStr + Environment.NewLine);
-
+                QueryAndParametersLogger.WriteToConsoleQueryAndParameters(query, parameters);
                 result.Add(new(query, parameters));
             }
         }
@@ -82,9 +80,7 @@ public static class SqlQueryBuilder
 
             query = query.Remove(query.Length - 1, 1) + ";";
 
-            var parametersStr = string.Join(", ", from pn in parameters.ParameterNames select string.Format("@{0}={1}", pn, (parameters as SqlMapper.IParameterLookup)[pn]));
-            Console.WriteLine(Environment.NewLine + query);
-            Console.WriteLine("Parameters:" + parametersStr + Environment.NewLine);
+            QueryAndParametersLogger.WriteToConsoleQueryAndParameters(query, parameters);
             result.Add(new(query, parameters));
         }
 
@@ -112,10 +108,7 @@ public static class SqlQueryBuilder
             }
         });
 
-        var parametersStr = string.Join(", ", from pn in parameters.ParameterNames select string.Format("@{0}={1}", pn, (parameters as SqlMapper.IParameterLookup)[pn]));
-        Console.WriteLine(Environment.NewLine + query);
-        Console.WriteLine("Parameters:" + parametersStr + Environment.NewLine);
-
+        QueryAndParametersLogger.WriteToConsoleQueryAndParameters(query, parameters);
         return new(query, parameters);
     }
 }

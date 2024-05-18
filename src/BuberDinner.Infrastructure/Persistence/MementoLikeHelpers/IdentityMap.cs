@@ -34,7 +34,9 @@ public class IdentityMap
             var originalStateStr = JsonConvert.SerializeObject(entity.GetState());
             mapItem = new IdentityMapItem()
             {
-                OriginalState = JsonConvert.DeserializeObject<Dictionary<string, object?>>(originalStateStr),
+                OriginalState = JsonConvert.DeserializeObject<Dictionary<string, object?>>(
+                    originalStateStr,
+                    new JsonSerializerSettings { FloatParseHandling = FloatParseHandling.Decimal }),
                 Entity = entity,
                 EntityDbState = EntityState.Unchanged,
             };

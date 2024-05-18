@@ -6,6 +6,7 @@ using BuberDinner.Domain.GuestAggregate.ValueObjects;
 using BuberDinner.Domain.UserAggregate.ValueObjects;
 using BuberDinner.Infrastructure.Persistence.MementoLikeHelpers;
 using BuberDinner.Infrastructure.Persistence.MementoLikeHelpers.Builders;
+using BuberDinner.Infrastructure.Persistence.MementoLikeHelpers.Helpers;
 
 using Dapper;
 
@@ -49,10 +50,11 @@ public class GuestRepository : RepositoryBase, IGuestRepository
 	        SELECT * FROM GuestRatings WHERE GuestId IN (@GuestIds);
         ";
 
-        var queryResult = await Connection.QueryMultipleAsync(
-            query,
-            new { GuestIds = string.Join(", ", guestIds.Select(x => x.Value)) },
-            transaction: Transaction);
+        var parameters = new DynamicParameters();
+        parameters.Add("GuestIds", string.Join(", ", guestIds.Select(x => x.Value)));
+        QueryAndParametersLogger.WriteToConsoleQueryAndParameters(query, parameters);
+
+        var queryResult = await Connection.QueryMultipleAsync(query, parameters, Transaction);
 
         var guests = queryResult.Read().ToList().Select(x => ((IDictionary<string, object?>)x).ToDictionary()).ToList();
         var menuReviewIds = queryResult.Read().ToList().Select(x => ((IDictionary<string, object?>)x).ToDictionary()).ToList();

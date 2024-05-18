@@ -6,6 +6,7 @@ using BuberDinner.Domain.DinnerAggregate.ValueObjects;
 using BuberDinner.Domain.HostAggregate.ValueObjects;
 using BuberDinner.Infrastructure.Persistence.MementoLikeHelpers;
 using BuberDinner.Infrastructure.Persistence.MementoLikeHelpers.Builders;
+using BuberDinner.Infrastructure.Persistence.MementoLikeHelpers.Helpers;
 
 using Dapper;
 
@@ -37,7 +38,10 @@ public class DinnerRepository : RepositoryBase, IDinnerRepository
             SELECT * FROM Dinners WHERE Id = @DinnerId;
 	        SELECT * FROM DinnerReservations WHERE DinnerId = @DinnerId;
         ";
-        var queryResult = await Connection.QueryMultipleAsync(query, new { DinnerId = dinnerId.Value }, transaction: Transaction);
+        var parameters = new DynamicParameters(new { DinnerId = dinnerId.Value });
+        parameters.Add("DinnerId", dinnerId.Value);
+        QueryAndParametersLogger.WriteToConsoleQueryAndParameters(query, parameters);
+        var queryResult = await Connection.QueryMultipleAsync(query, parameters, transaction: Transaction);
         var dinner = ((IDictionary<string, object?>)queryResult.ReadFirst()).ToDictionary(x => x.Key, x => x.Value);
         var reservations = queryResult.Read().ToList().Select(x => ((IDictionary<string, object?>)x).ToDictionary()).ToList();
 
@@ -56,7 +60,11 @@ public class DinnerRepository : RepositoryBase, IDinnerRepository
             SELECT * FROM Dinners WHERE Id = (SELECT DinnerId FROM DinnerReservations WHERE ReservationId = @ReservationId);
             SELECT * FROM DinnerReservations WHERE DinnerId = (SELECT DinnerId FROM DinnerReservations WHERE ReservationId = @ReservationId);
         ";
-        var queryResult = await Connection.QueryMultipleAsync(query, new { ReservationId = reservationId.Value }, transaction: Transaction);
+        var parameters = new DynamicParameters();
+        parameters.Add("ReservationId", reservationId.Value);
+        QueryAndParametersLogger.WriteToConsoleQueryAndParameters(query, parameters);
+
+        var queryResult = await Connection.QueryMultipleAsync(query, parameters, transaction: Transaction);
         var dinner = ((IDictionary<string, object?>)queryResult.ReadFirst()).ToDictionary(x => x.Key, x => x.Value);
         var reservations = queryResult.Read().ToList().Select(x => ((IDictionary<string, object?>)x).ToDictionary()).ToList();
 
@@ -76,8 +84,11 @@ public class DinnerRepository : RepositoryBase, IDinnerRepository
 	        SELECT * FROM DinnerReservations WHERE
                 DinnerId IN (SELECT Id FROM Dinners WHERE HostId = @HostId);
         ";
+        var parameters = new DynamicParameters();
+        parameters.Add("HostId", hostId.Value);
+        QueryAndParametersLogger.WriteToConsoleQueryAndParameters(query, parameters);
 
-        var queryResult = await Connection.QueryMultipleAsync(query, new { HostId = hostId.Value }, transaction: Transaction);
+        var queryResult = await Connection.QueryMultipleAsync(query, parameters, transaction: Transaction);
         var dinners = queryResult.Read().ToList().Select(x => ((IDictionary<string, object?>)x).ToDictionary()).ToList();
         var reservations = queryResult.Read().ToList().Select(x => ((IDictionary<string, object?>)x).ToDictionary()).ToList();
 
