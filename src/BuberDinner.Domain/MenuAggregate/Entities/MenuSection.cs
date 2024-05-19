@@ -49,7 +49,7 @@ public sealed class MenuSection : Entity<MenuSectionId>
 
     public Dictionary<string, object?> GetState() => new()
     {
-        { "Keys", new[] { "MenuSectionId" } },
+        { "Keys", new[] { "MenuSectionId", "MenuId" } },
         { "MenuSectionId", Id.Value },
         { "MenuId", _menuId.Value },
         { "Name", Name },
