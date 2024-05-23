@@ -237,7 +237,7 @@ public class UnitOfWork : IUnitOfWork
             }
 
             var rootTableName = mapItem.Entity.GetType().GetProperty(nameof(IAggregateRoot.TableName))!.GetValue(mapItem.Entity)!.ToString()!;
-            var changesInTables = StatesComparer.Handle(mapItem.OriginalState ?? new(), mapItem.Entity.GetState(), rootTableName);
+            var changesInTables = StatesComparator.Handle(mapItem.OriginalState ?? new(), mapItem.Entity.GetState(), rootTableName);
 
             foreach (var (tableName, changes) in changesInTables)
             {

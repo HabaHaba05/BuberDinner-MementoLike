@@ -3,7 +3,7 @@ using Newtonsoft.Json.Linq;
 
 namespace BuberDinner.Infrastructure.Persistence.MementoLikeHelpers;
 
-public static class StatesComparer
+public static class StatesComparator
 {
     public record ComparerResult(ActionType ActionType, JObject Changes, List<KeyValuePair<string, object>> Keys, JObject? CurrentState, JObject? PreviousState);
 

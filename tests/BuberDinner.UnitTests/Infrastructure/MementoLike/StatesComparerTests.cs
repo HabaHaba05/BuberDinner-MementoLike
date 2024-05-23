@@ -18,7 +18,7 @@ public class StatesComparerTests
         var newState = Menu.FromState(MenuStates.MenuState).GetState();
 
         // Act
-        var result = StatesComparer.Handle(oldState, newState, "Menus");
+        var result = StatesComparator.Handle(oldState, newState, "Menus");
 
         // Assert
         Assert.NotNull(result);
@@ -34,7 +34,7 @@ public class StatesComparerTests
         var menuId = Guid.Parse("9e2ab586-27cf-4b8d-b50b-3275800536e1");
 
         // Act
-        var result = StatesComparer.Handle(oldState, newState, "Menus");
+        var result = StatesComparator.Handle(oldState, newState, "Menus");
 
         // Assert
         Assert.NotNull(result);

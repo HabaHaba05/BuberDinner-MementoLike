@@ -11,7 +11,7 @@ public static class SqlQueryBuilder
 
     public static List<SqlQueryBuilderResult> Update(Dictionary<string, object?> oldState, Dictionary<string, object?> newState, string rootTableName)
     {
-        var statesComparerResults = StatesComparer.Handle(oldState, newState, rootTableName);
+        var statesComparerResults = StatesComparator.Handle(oldState, newState, rootTableName);
         var result = new List<SqlQueryBuilderResult>();
         foreach (var (tableName, comparerResults) in statesComparerResults)
         {
