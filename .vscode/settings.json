@@ -1,0 +1,13 @@
+{
+    "rest-client.environmentVariables": {
+        "$shared": {
+            "host": "https://localhost:7229",
+            "menuId": "db19207d-fa04-43e4-a692-5397ac87ebc9",
+            "hostId": "hostId"
+        },
+        "dev": {
+            "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NGI0ZDVkNi0xNDZjLTRjNTgtODU1Ni1mNTdlYjA3N2ZkOWUiLCJnaXZlbl9uYW1lIjoiQW1pa28iLCJmYW1pbHlfbmFtZSI6IkRhcmsiLCJqdGkiOiI5OGJmM2ZiNy1kZjk0LTQwMWMtODE3ZC0yMjg1YzgxYzIxMTEiLCJleHAiOjE2ODI1MzEyMTgsImlzcyI6IkJ1YmVyRGlubmVyIiwiYXVkIjoiQnViZXJEaW5uZXIifQ.vCOrZ_zlZYTzZEs3Kt3xTRtz1PZzMfog2BvAqWAcHis"
+        }
+    },
+    "dotnet-test-explorer.testProjectPath": "tests/**/*.csproj",
+}
